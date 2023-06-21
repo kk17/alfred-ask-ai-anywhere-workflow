@@ -2,9 +2,10 @@ import click
 import os
 from notionai import NotionAI
 from notionai.enums import ToneEnum, TranslateLanguageEnum, PromptTypeEnum
-import keyboard
 import pyperclip
 import logging
+import platform
+from pynput.keyboard import Key, Controller
 
 
 logging.basicConfig(format='%(message)s', level=logging.INFO)
@@ -13,36 +14,49 @@ LOGGER = logging.getLogger(__name__)
 TOKEN = os.getenv("NOTION_TOKEN")
 SPACE_ID = os.getenv("NOTION_SPACE_ID")
 AI = NotionAI(TOKEN, SPACE_ID)
+keyboard = Controller()
 
 @click.group()
-@click.option('--copy-input-content', is_flag=True, help='Copy input content to clipboard.')
-@click.option('--keyboard-output', is_flag=True, help='Output result to keyboard instead of stdout.')
-@click.option('--keyboard-output-with-input', is_flag=True, help='make input content as the front part of keyboard output')
-@click.option('--clipboard-output', is_flag=True, help='Copy result to clipboard.')
+@click.option('--input-to-clipboard', is_flag=True, help='Copy input content to clipboard.')
+@click.option('--combine-input-into-result', is_flag=True, help='Combine input content into result.')
+@click.option('--result-to-keyboard', is_flag=True, help='Output result to keyboard instead of stdout.')
+@click.option('--result-to-clipboard', is_flag=True, help='Copy result to clipboard.')
+@click.option('--paste-result', is_flag=True, help='Paste result from clipboard.')
 @click.option('--verbose', '-v', is_flag=True, help='Enable verbose output.')
-def cli(copy_input_content, keyboard_output, keyboard_output_with_input, clipboard_output, verbose):
+def cli(input_to_clipboard, combine_input_into_result, result_to_keyboard, result_to_clipboard, paste_result, verbose):
     """Command line interface for Notion AI API."""
-    global COPY_CONTENT, KB_OUTPUT, CLIPBOARD_OUTPUT, KEYBOARD_OUTPUT_WITH_INPUT
-    COPY_CONTENT = copy_input_content
-    KB_OUTPUT = keyboard_output
-    CLIPBOARD_OUTPUT = clipboard_output
-    KEYBOARD_OUTPUT_WITH_INPUT = keyboard_output_with_input
+    global INPUT_TO_CLIPBOARD, COMBINE_INPUT_INTO_RESULT, RESULT_TO_KEYBOARD, RESULT_TO_CLIPBOARD, PASTE_RESULT
+    INPUT_TO_CLIPBOARD = input_to_clipboard
+    COMBINE_INPUT_INTO_RESULT = combine_input_into_result
+    RESULT_TO_KEYBOARD = result_to_keyboard
+    RESULT_TO_CLIPBOARD = result_to_clipboard
+    PASTE_RESULT = paste_result
     if verbose:
         LOGGER.level = logging.DEBUG
 
 def output(context, result):
-    if COPY_CONTENT:
+    if INPUT_TO_CLIPBOARD:
         pyperclip.copy(context)
     LOGGER.debug(f"notion ai result: {result}")
-    if CLIPBOARD_OUTPUT:
+    if COMBINE_INPUT_INTO_RESULT:
+        LOGGER.debug("output with input")
+        result = f"{context}\n{result}"
+    if RESULT_TO_CLIPBOARD:
         LOGGER.debug("write to clipboard")
         pyperclip.copy(result)
-    if KB_OUTPUT:
-        if KEYBOARD_OUTPUT_WITH_INPUT:
-            LOGGER.debug("output with input")
-            result = f"{context}\n{result}"
+    if RESULT_TO_KEYBOARD:
         LOGGER.debug("write to keyboard")
-        keyboard.write(result)
+        keyboard.type(result)
+    if PASTE_RESULT:
+        LOGGER.debug("paste result from clipboard")
+        if platform.system() == 'Darwin':
+            with keyboard.pressed(Key.cmd):
+                keyboard.press('v')
+                keyboard.release('v')
+        else:
+            with keyboard.pressed(Key.ctrl):
+                keyboard.press('v')
+                keyboard.release('v')
     else:
         LOGGER.debug("write using echo")
         click.echo(result)
