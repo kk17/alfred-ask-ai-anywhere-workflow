@@ -13,11 +13,12 @@ This set of instructions is for using Alfred, a productivity app for Mac. By typ
 
 ## Installation
 
-1. Download the `AskNotionAI.alfredworkflow` file from this repository
+1. Download the `AskAIAnywhere.alfredworkflow` file from this repository
 2. Open the file
 3. Click `Import` in the top right corner
 4. Done
 
 ## Credits
 
-The Alfred workflow is using `notionai_py` python package.
+- The Alfred workflow is using [notionai_py](https://github.com/Vaayne/notionai-py) python package.
+- Icon from https://www.flaticon.com/
