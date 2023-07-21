@@ -66,7 +66,7 @@ continue-writing #translate the following content into Singlish:
 
 Additionally, some Text to Speech options have been added. If they are not working, you may need to download the necessary voice in your OS system preferences under Spoken Content -> System Voice -> Manage Voices.
 
-## Trouble shotting
+## Troubleshooting
 - [Using the Workflow Debugger - Alfred Help and Support](https://www.alfredapp.com/help/workflows/advanced/debugger/)
 
 
