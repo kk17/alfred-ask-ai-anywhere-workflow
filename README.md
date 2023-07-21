@@ -1,22 +1,85 @@
-# AskNotionAI
+# AskAI Anywhere - Alfred Workflow
 
-This is an **Alfred Workflow** that enables you to ask **NotionAI** from anywhere. 
+A powerful workflow for using Notion's AskAI feature from anywhere.
+![](docs/ask-ai-anywhere.gif)
 
-## Usage
-
-1. Open Alfred
-2. Type `ask`
-3. Type your question
-4. Press `enter`
-5. Wait for the answer
-This set of instructions is for using Alfred, a productivity app for Mac. By typing `ask` and then your question, you can search the web, control your computer, and perform many other actions. Once you press `enter`, Alfred will display the most relevant answer to your question, or perform the action that you requested.
 
 ## Installation
 
-1. Download the `AskAIAnywhere.alfredworkflow` file from this repository
-2. Open the file
-3. Click `Import` in the top right corner
-4. Done
+1. [Download the workflow](https://github.com/kk17/alfred-ask-ai-anywhere-workflow/releases/latest)
+2. Double click the `.alfredworkflow` file to install
+
+Note that the [Alfred 5 Powerpack](https://www.alfredapp.com/powerpack/) and [NotionAI](https://www.notion.so/product/ai) are required to use the workflow.
+
+## Workflow setup
+After install the workflow, you need to do some setup.
+
+1. Copy the command and run in termial to download the requirments.txt file from github and use pip3 to install the packages for system python3 environment
+    ```bash
+    curl https://raw.githubusercontent.com/kk17/alfred-ask-ai-anywhere-workflow/main/requirements.txt | xargs -n 1 /usr/bin/pip3 install
+    ```
+2. Follow [this guide](https://github.com/Vaayne/notionai-py#get-notion-token-and-workspace-id) to get Notion token and workspace ID from you broswer.
+Open Alfred Preferences, go to Workflows and locate the workflow. Click the Variables icon on the top right and config the variables.
+![onfig-environment-variables](docs/config-environment-variables.png)
+3. Config hotkeys for triggering the workflow.
+![config-hotkeys](docs/config-hotkeys.png)
+The first hotkey is used to trgger a list filter that can list all the avariable options.
+The rest hotkeys are shortcut for some of the options.
+
+## Usage
+To use, select any text anywhere then press the hotkeys you configured to trigger this workflow. 
+You can also add more option in to the List Filter.
+
+`ask_notion_ai.py` script usage:
+```
+/usr/bin/python3 ./ask_notion_ai.py --help
+
+Usage: ask_notion_ai.py [OPTIONS] COMMAND [ARGS]...
+
+  Command line interface for Notion AI API.
+
+Options:
+  --input-to-clipboard         Copy input content to clipboard.
+  --combine-input-into-result  Combine input content into result.
+  --result-to-keyboard         Output result to keyboard instead of stdout.
+  --result-to-clipboard        Copy result to clipboard.
+  --paste-result               Paste result from clipboard.
+  -v, --verbose                Enable verbose output.
+  --help                       Show this message and exit.
+
+Commands:
+  change-tone
+  continue-writing
+  improve-writing
+  summarize
+  translate
+```
+
+## Advanced Features
+If no text is selected, this workflow will use the contents of your clipboard as input. 
+
+You can create your own prompt using the `continue-writing` command, followed by a `#` symbol. For example, an option in the list script could be:
+
+```
+continue-writing #translate the following content into Singlish:
+```
+
+Additionally, some Text to Speech options have been added. If they are not working, you may need to download the necessary voice in your OS system preferences under Spoken Content -> System Voice -> Manage Voices.
+
+## Trouble shotting
+- [Using the Workflow Debugger - Alfred Help and Support](https://www.alfredapp.com/help/workflows/advanced/debugger/)
+
+
+## Contributing
+
+See [this README](CONTRIBUTING.md)
+
+
+## Donating
+
+Like this workflow? Consider donating! 😻
+<a href="https://www.buymeacoffee.com/kk17" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Pizza" style="height: 60px !important;width: 217px !important;" ></a>
+
 
 ## Credits
 
