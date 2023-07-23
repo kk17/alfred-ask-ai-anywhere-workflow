@@ -1,4 +1,7 @@
-# AskAI Anywhere - Alfred Workflow
+# AskAI Anywhere - Alfred Workflo
+[![Releases](https://img.shields.io/github/v/release/kk17/alfred-ask-ai-anywhere-workflow?include_prereleases)](https://github.com/kk17/alfred-ask-ai-anywhere-workflow/releases)
+[![Issues](https://img.shields.io/github/issues/kk17/alfred-ask-ai-anywhere-workflow)](https://github.com/kk17/alfred-ask-ai-anywhere-workflow/issues)
+
 
 A powerful workflow for using Notion's AskAI feature from anywhere.
 ![](docs/ask-ai-anywhere.gif)
@@ -7,7 +10,7 @@ A powerful workflow for using Notion's AskAI feature from anywhere.
 ## Installation
 
 1. [Download the workflow](https://github.com/kk17/alfred-ask-ai-anywhere-workflow/releases/latest)
-2. Double click the `.alfredworkflow` file to install
+2. Double click the `.alfredworkflow` file to install and configure the workflow. Follow [this guide](https://github.com/Vaayne/notionai-py#get-notion-token-and-workspace-id) to get Notion token and workspace ID from you broswer.
 
 Note that the [Alfred 5 Powerpack](https://www.alfredapp.com/powerpack/) and [NotionAI](https://www.notion.so/product/ai) are required to use the workflow.
 
@@ -18,10 +21,7 @@ After install the workflow, you need to do some setup.
     ```bash
     curl https://raw.githubusercontent.com/kk17/alfred-ask-ai-anywhere-workflow/main/requirements.txt | xargs -n 1 /usr/bin/pip3 install
     ```
-2. Follow [this guide](https://github.com/Vaayne/notionai-py#get-notion-token-and-workspace-id) to get Notion token and workspace ID from you broswer.
-Open Alfred Preferences, go to Workflows and locate the workflow. Click the Variables icon on the top right and config the variables.
-![onfig-environment-variables](docs/config-environment-variables.png)
-3. Config hotkeys for triggering the workflow.
+2. Config hotkeys for triggering the workflow.
 ![config-hotkeys](docs/config-hotkeys.png)
 The first hotkey is used to trgger a list filter that can list all the avariable options.
 The rest hotkeys are shortcut for some of the options.
