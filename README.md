@@ -1,4 +1,4 @@
-# AskAI Anywhere - Alfred Workflo
+# AskAI Anywhere - Alfred Workflow
 [![Releases](https://img.shields.io/github/v/release/kk17/alfred-ask-ai-anywhere-workflow?include_prereleases)](https://github.com/kk17/alfred-ask-ai-anywhere-workflow/releases)
 [![Issues](https://img.shields.io/github/issues/kk17/alfred-ask-ai-anywhere-workflow)](https://github.com/kk17/alfred-ask-ai-anywhere-workflow/issues)
 
