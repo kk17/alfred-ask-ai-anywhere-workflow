@@ -26,25 +26,31 @@ class AIProvider(abc.ABC):
     def complete(self, prompt: str, **kwargs) -> str:
         pass
 
+    def complete_and_remove_prompt(self, prompt: str, **kwargs) -> str:
+        result = self.complete(prompt, **kwargs)
+        if result.startswith(prompt):
+            result = result[len(prompt):]
+        return result
+
     def change_tone(self, tone: str, context: str):
         promt = f"Change the tone to {tone}:\n{context}"
-        return self.complete(promt)
+        return self.complete_and_remove_prompt(promt)
 
     def improve_writing(self, context):
         promt = f"Improve the writing:\n{context}"
-        return self.complete(promt)
+        return self.complete_and_remove_prompt(promt)
 
     def continue_writing(self, context, page_title=""):
         promt = f"Continue writing:\n{context}"
-        return self.complete(promt)
+        return self.complete_and_remove_prompt(promt)
 
     def translate(self, language, context):
         promt = f"Translate to {language}:\n{context}"
-        return self.complete(promt)
+        return self.complete_and_remove_prompt(promt)
 
     def summarize(self, context):
         promp = f"Summarize:\n{context}"
-        return self.complete(promp)
+        return self.complete_and_remove_prompt(promp)
 
     @classmethod
     def _build_one(cls, model_provoder: str):
