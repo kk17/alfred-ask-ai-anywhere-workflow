@@ -7,7 +7,7 @@ from pynput.keyboard import Key, Controller
 from provider import AIProvider
 
 logging.basicConfig(format='%(message)s', level=logging.INFO)
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger("ask_ai")
 
 keyboard = Controller()
 
@@ -40,6 +40,9 @@ MODEL_CHOICES = [
     "openai_gpt-3.5-turbo",
     "openai_gpt-4",
     "openai_text-davinci-003",
+    "bingchat_creative",
+    "bingchat_precise",
+    "bingchat_balanced",
 ]
 
 

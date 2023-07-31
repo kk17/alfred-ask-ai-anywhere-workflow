@@ -18,3 +18,4 @@ pyllms
 # accelerate
 # protobuf~=3.2.3
 # grpcio~=1.54.2
+sydney-py~=0.12.0

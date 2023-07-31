@@ -1,9 +1,16 @@
 import abc
 import os
+import logging
+
 from notionai import NotionAI
 from typing import List
 import llms
 from notionai.enums import ToneEnum, TranslateLanguageEnum, PromptTypeEnum
+import asyncio
+
+from sydney import SydneyClient
+
+LOGGER = logging.getLogger("ask_ai")
 
 PYLLM_PROVODERS = [
     "openai",
@@ -61,7 +68,8 @@ class AIProvider(abc.ABC):
         elif provider == "notionai":
             return NotionAIProvider()
         elif provider == "bingchat":
-            return BingChatProvider()
+            style = model_provoder.split("_", 1)[1]
+            return BingChatProvider(style)
         else:
             raise Exception(f"not support provider {provider}")
 
@@ -79,20 +87,52 @@ class NotionAIProvider(AIProvider):
         self.name = "notionai"
         TOKEN = os.getenv("NOTION_TOKEN")
         SPACE_ID = os.getenv("NOTION_SPACE_ID")
+        if not TOKEN:
+            LOGGER.error("NOTION_TOKEN is not set")
+        if not SPACE_ID:
+            LOGGER.error("NOTION_SPACE_ID is not set")
+        logging.debug(f"Create NotionAIProvider with token {TOKEN} and space id {SPACE_ID}")
         self.ai = NotionAI(TOKEN, SPACE_ID)
 
     def complete(self, prompt: str, **kwargs) -> str:
         return self.ai.writing_with_prompt(PromptTypeEnum.continue_writing,
                                            context=prompt,
                                            **kwargs)
+    
+    def improve_writing(self, context):
+        return self.ai.improve_writing(context)
+
+    def continue_writing(self, context, page_title=""):
+        return self.ai.continue_write(context)
+
+    def translate(self, language, context):
+        language_enum = TranslateLanguageEnum(language)
+        return self.ai.translate(language_enum, context)
+
+    def summarize(self, context):
+        return self.ai.summarize(context)
 
 class BingChatProvider(AIProvider):
-    pass
+    def __init__(self, style):
+        self.name = "bingchat"
+        LOGGER.debug(f"Create BingChatProvider with style {style}")
+        self.sydney = SydneyClient(style=style)
+
+    async def _async_complete(self, prompt: str, **kwargs) -> str:
+        await self.sydney.start_conversation()
+        result  = await self.sydney.ask(prompt, citations=False)
+        # self.sydney.reset_conversation()
+        return result
+    
+    def complete(self, prompt: str, **kwargs) -> str:
+        answer = asyncio.run(self._async_complete(prompt, **kwargs))
+        return answer
 
 class PyLLMProvider(AIProvider):
 
     def __init__(self, provider:str, model: str):
         self.name = f"{provider}_{model}"
+        LOGGER.debug(f"Create PyLLMProvider with provider {provider} and model {model}")
         self.ai = llms.init(model)
 
     def complete(self, prompt: str, **kwargs) -> str:
