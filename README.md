@@ -26,7 +26,7 @@ You can also add more option in to the List Filter.
 
 Usage: ask_ai.py [OPTIONS] COMMAND [ARGS]...
 
-  Command line interface for Notion AI API.
+  Command line interface for LLM API.
 
 Options:
   --model-provider [notionai|openai_gpt-3.5-turbo|openai_gpt-4|openai_text-davinci-003]
@@ -44,6 +44,7 @@ Commands:
   continue-writing
   improve-writing
   summarize
+  translate
 ```
 
 ## Advanced Features

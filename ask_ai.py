@@ -72,7 +72,7 @@ MODEL_CHOICES = [
 @click.option('--verbose', '-v', is_flag=True, help='Enable verbose output.')
 def cli(model_provider, input_to_clipboard, combine_input_into_result,
         result_to_keyboard, result_to_clipboard, paste_result, verbose):
-    """Command line interface for Notion AI API."""
+    """Command line interface for LLM API."""
     global AI, INPUT_TO_CLIPBOARD, COMBINE_INPUT_INTO_RESULT, RESULT_TO_KEYBOARD, RESULT_TO_CLIPBOARD, PASTE_RESULT
     AI = AIProvider.build(model_provider)
     INPUT_TO_CLIPBOARD = input_to_clipboard
