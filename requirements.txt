@@ -2,6 +2,7 @@ notionai_py>=0.1.4
 click>=8.1.3
 pynput>=1.7.6
 pyperclip>=1.8.2
+hugchat==0.0.9
 # fastavro==1.7.0
 # pyllms
 openai=0.27.8

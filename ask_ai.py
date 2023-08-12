@@ -12,8 +12,9 @@ LOGGER = logging.getLogger("ask_ai")
 keyboard = Controller()
 
 MODEL_CHOICES = [
+    "hugchat_OpenAssistant/oasst-sft-6-llama-30b-xor",
+    "hugchat_meta-llama/Llama-2-70b-chat-hf",
     "notionai",
-    # "openai",
     "openai_gpt-3.5-turbo",
     "openai_gpt-4",
     "openai_text-davinci-003",
@@ -53,7 +54,7 @@ MODEL_CHOICES = [
               help='LLM provider, support notionai, openai',
               type=click.Choice(MODEL_CHOICES),
               multiple=True,
-              default=['openai_text-davinci-003'])
+              default=['hugchat_meta-llama/Llama-2-70b-chat-hf'])
 @click.option('--input-to-clipboard',
               is_flag=True,
               help='Copy input content to clipboard.')

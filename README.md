@@ -12,11 +12,13 @@ A powerful workflow for using Notion's AskAI feature from anywhere.
 1. [Download the workflow](https://github.com/kk17/alfred-ask-ai-anywhere-workflow/releases/latest)
 2. Double click the `.alfredworkflow` file to install and configure the workflow. 
 
-Note that the [Alfred 5 Powerpack](https://www.alfredapp.com/powerpack/) and one of the LLM provider to use the workflow.
-- NotionAI: Follow [this guide](https://github.com/Vaayne/notionai-py#get-notion-token-and-workspace-id) to get Notion token and workspace ID from you broswer.
-- OpenAI: Get your api key from [here](https://platform.openai.com/account/api-keys)
+Note that the [Alfred 5 Powerpack](https://www.alfredapp.com/powerpack/) is required to use the workflow. To get started, you will need to register for one of the following services:
 
-After configure the API key, you need to configure hotkeys for the workflow.
+- Huggingface Chat (Free): Register your account [here](https://huggingface.co/chat/).
+- OpenAI: Get your API key from [here](https://platform.openai.com/account/api-keys).
+- NotionAI: Follow [this guide](https://github.com/Vaayne/notionai-py#get-notion-token-and-workspace-id) to get your Notion token and workspace ID from your browser.
+
+After configure the LLM provider, you need to configure hotkeys for the workflow.
 ![configure hotkeys](./docs/config-hotkeys.png)
 
 ## Usage
