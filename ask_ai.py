@@ -53,7 +53,7 @@ MODEL_CHOICES = [
               help='LLM provider, support notionai, openai',
               type=click.Choice(MODEL_CHOICES),
               multiple=True,
-              default=['notionai'])
+              default=['openai_text-davinci-003'])
 @click.option('--input-to-clipboard',
               is_flag=True,
               help='Copy input content to clipboard.')
