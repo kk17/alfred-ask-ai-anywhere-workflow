@@ -10,11 +10,14 @@ A powerful workflow for using Notion's AskAI feature from anywhere.
 ## Installation
 
 1. [Download the workflow](https://github.com/kk17/alfred-ask-ai-anywhere-workflow/releases/latest)
-2. Double click the `.alfredworkflow` file to install and configure the workflow. Follow [this guide](https://github.com/Vaayne/notionai-py#get-notion-token-and-workspace-id) to get Notion token and workspace ID from you broswer.
+2. Double click the `.alfredworkflow` file to install and configure the workflow. 
 
 Note that the [Alfred 5 Powerpack](https://www.alfredapp.com/powerpack/) and one of the LLM provider to use the workflow.
-- [NotionAI](https://www.notion.so/product/ai)
-- [OpenAI](https://platform.openai.com/account/api-keys)
+- NotionAI: Follow [this guide](https://github.com/Vaayne/notionai-py#get-notion-token-and-workspace-id) to get Notion token and workspace ID from you broswer.
+- OpenAI: Get your api key from [here](https://platform.openai.com/account/api-keys)
+
+After configure the API key, you need to configure hotkeys for the workflow.
+![configure hotkeys](./docs/config-hotkeys.png)
 
 ## Usage
 To use, select any text anywhere then press the hotkeys you configured to trigger this workflow. 
