@@ -10,42 +10,37 @@ A powerful workflow for using Notion's AskAI feature from anywhere.
 ## Installation
 
 1. [Download the workflow](https://github.com/kk17/alfred-ask-ai-anywhere-workflow/releases/latest)
-2. Double click the `.alfredworkflow` file to install and configure the workflow. Follow [this guide](https://github.com/Vaayne/notionai-py#get-notion-token-and-workspace-id) to get Notion token and workspace ID from you broswer.
+2. Double click the `.alfredworkflow` file to install and configure the workflow. 
 
-Note that the [Alfred 5 Powerpack](https://www.alfredapp.com/powerpack/) and [NotionAI](https://www.notion.so/product/ai) are required to use the workflow.
+Note that the [Alfred 5 Powerpack](https://www.alfredapp.com/powerpack/) and one of the LLM provider to use the workflow.
+- NotionAI: Follow [this guide](https://github.com/Vaayne/notionai-py#get-notion-token-and-workspace-id) to get Notion token and workspace ID from you broswer.
+- OpenAI: Get your api key from [here](https://platform.openai.com/account/api-keys)
 
-## Workflow setup
-After install the workflow, you need to do some setup.
-
-1. Copy the command and run in termial to download the requirments.txt file from github and use pip3 to install the packages for system python3 environment
-    ```bash
-    curl https://raw.githubusercontent.com/kk17/alfred-ask-ai-anywhere-workflow/main/requirements.txt | xargs -n 1 /usr/bin/pip3 install
-    ```
-2. Config hotkeys for triggering the workflow.
-![config-hotkeys](docs/config-hotkeys.png)
-The first hotkey is used to trgger a list filter that can list all the avariable options.
-The rest hotkeys are shortcut for some of the options.
+After configure the API key, you need to configure hotkeys for the workflow.
+![configure hotkeys](./docs/config-hotkeys.png)
 
 ## Usage
 To use, select any text anywhere then press the hotkeys you configured to trigger this workflow. 
 You can also add more option in to the List Filter.
 
-`ask_notion_ai.py` script usage:
+`ask_ai.py` script usage:
 ```
-/usr/bin/python3 ./ask_notion_ai.py --help
+/usr/bin/python3 ./ask_ai.py --help
 
-Usage: ask_notion_ai.py [OPTIONS] COMMAND [ARGS]...
+Usage: ask_ai.py [OPTIONS] COMMAND [ARGS]...
 
-  Command line interface for Notion AI API.
+  Command line interface for LLM API.
 
 Options:
-  --input-to-clipboard         Copy input content to clipboard.
-  --combine-input-into-result  Combine input content into result.
-  --result-to-keyboard         Output result to keyboard instead of stdout.
-  --result-to-clipboard        Copy result to clipboard.
-  --paste-result               Paste result from clipboard.
-  -v, --verbose                Enable verbose output.
-  --help                       Show this message and exit.
+  --model-provider [notionai|openai_gpt-3.5-turbo|openai_gpt-4|openai_text-davinci-003]
+                                  LLM provider, support notionai, openai
+  --input-to-clipboard            Copy input content to clipboard.
+  --combine-input-into-result     Combine input content into result.
+  --result-to-keyboard            Output result to keyboard instead of stdout.
+  --result-to-clipboard           Copy result to clipboard.
+  --paste-result                  Paste result from clipboard.
+  -v, --verbose                   Enable verbose output.
+  --help                          Show this message and exit.
 
 Commands:
   change-tone
