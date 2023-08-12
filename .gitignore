@@ -1,3 +1,4 @@
 info.plist
 prefs.plist
 *.pyc
+lib

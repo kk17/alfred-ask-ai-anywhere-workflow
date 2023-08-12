@@ -3,12 +3,9 @@ import os
 import logging
 
 from notionai import NotionAI
-from typing import List
-import llms
+from typing import List, Optional, Dict
 from notionai.enums import ToneEnum, TranslateLanguageEnum, PromptTypeEnum
-import asyncio
-
-from sydney import SydneyClient
+import openai
 
 LOGGER = logging.getLogger("ask_ai")
 
@@ -21,11 +18,9 @@ PYLLM_PROVODERS = [
     "huggingface_hub",
     "google",
 ]
-OTHER_PROVIDERS = [
-    "notionai",
-    "bingchat",
-]
+OTHER_PROVIDERS = ["notionai", "bingchat", "openai"]
 PROVODERS = PYLLM_PROVODERS + OTHER_PROVIDERS
+
 
 class AIProvider(abc.ABC):
 
@@ -61,9 +56,13 @@ class AIProvider(abc.ABC):
 
     @classmethod
     def _build_one(cls, model_provoder: str):
-        provider = model_provoder.split("_", 1)[0]
-        if provider in PYLLM_PROVODERS:
-            model = model_provoder.split("_", 1)[1]
+        parts = model_provoder.split("_", 1)
+        provider = parts[0]
+        if provider == "openai":
+            return OpenAIProvider(
+                parts[1]) if len(parts) == 2 else OpenAIProvider()
+        elif provider in PYLLM_PROVODERS:
+            model = parts[1]
             return PyLLMProvider(provider, model)
         elif provider == "notionai":
             return NotionAIProvider()
@@ -75,10 +74,100 @@ class AIProvider(abc.ABC):
 
     @classmethod
     def build(cls, provoders: List[str]):
+        LOGGER.debug(f"Providers: {provoders}")
         if len(provoders) == 1:
             return AIProvider._build_one(provoders[0])
         else:
             return MultiProvider(provoders)
+
+
+class OpenAIProvider(AIProvider):
+
+    def __init__(self, model='gpt-3.5-turbo', api_key=None):
+        self.model = model
+        self.name = f"openai_{model}"
+        self.api_key = api_key if api_key is not None else os.getenv(
+            'OPENAI_API_KEY')
+
+        # Set the OpenAI API key
+        openai.api_key = self.api_key
+        self.client = openai.ChatCompletion if self.is_chat_model else openai.Completion
+
+    @property
+    def is_chat_model(self) -> bool:
+        return self.model.startswith("gpt")
+
+    def _prepapre_model_inputs(
+        self,
+        prompt: str,
+        history: Optional[List[dict]] = None,
+        system_message: str = None,
+        temperature: float = 0,
+        max_tokens: int = 300,
+        stream: bool = False,
+        **kwargs,
+    ) -> Dict:
+        if self.is_chat_model:
+            messages = [{"role": "user", "content": prompt}]
+
+            if history:
+                messages = [*history, *messages]
+
+            if system_message:
+                messages = [{
+                    "role": "system",
+                    "content": system_message
+                }, *messages]
+
+            model_inputs = {
+                "messages": messages,
+                "temperature": temperature,
+                "max_tokens": max_tokens,
+                "stream": stream,
+                **kwargs,
+            }
+        else:
+            if history:
+                raise ValueError(
+                    f"history argument is not supported for {self.model} model"
+                )
+
+            if system_message:
+                raise ValueError(
+                    f"system_message argument is not supported for {self.model} model"
+                )
+
+            model_inputs = {
+                "prompt": prompt,
+                "temperature": temperature,
+                "max_tokens": max_tokens,
+                "stream": stream,
+                **kwargs,
+            }
+        return model_inputs
+
+    def complete(self,
+                 prompt: str,
+                 history: Optional[List[dict]] = None,
+                 system_message: Optional[List[dict]] = None,
+                 temperature: float = 0,
+                 max_tokens: int = 300,
+                 **kwargs) -> str:
+        model_inputs = self._prepapre_model_inputs(
+            prompt=prompt,
+            history=None,
+            system_message=None,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            **kwargs,
+        )
+
+        response = self.client.create(model=self.model,
+                                      **model_inputs,
+                                      **kwargs)
+        if self.is_chat_model:
+            return response.choices[0].message.content.strip()
+        return response.choices[0].text.strip()
 
 
 class NotionAIProvider(AIProvider):
@@ -91,14 +180,20 @@ class NotionAIProvider(AIProvider):
             LOGGER.error("NOTION_TOKEN is not set")
         if not SPACE_ID:
             LOGGER.error("NOTION_SPACE_ID is not set")
-        logging.debug(f"Create NotionAIProvider with token {TOKEN} and space id {SPACE_ID}")
+        logging.debug(
+            f"Create NotionAIProvider with token {TOKEN} and space id {SPACE_ID}"
+        )
         self.ai = NotionAI(TOKEN, SPACE_ID)
 
     def complete(self, prompt: str, **kwargs) -> str:
         return self.ai.writing_with_prompt(PromptTypeEnum.continue_writing,
                                            context=prompt,
                                            **kwargs)
-    
+
+    def change_tone(self, tone: str, context: str):
+        tone_enum = ToneEnum(tone)
+        return self.ai.translate(tone_enum, context)
+
     def improve_writing(self, context):
         return self.ai.improve_writing(context)
 
@@ -112,27 +207,35 @@ class NotionAIProvider(AIProvider):
     def summarize(self, context):
         return self.ai.summarize(context)
 
+
 class BingChatProvider(AIProvider):
+
     def __init__(self, style):
+        from sydney import SydneyClient
+
         self.name = "bingchat"
         LOGGER.debug(f"Create BingChatProvider with style {style}")
         self.sydney = SydneyClient(style=style)
 
     async def _async_complete(self, prompt: str, **kwargs) -> str:
         await self.sydney.start_conversation()
-        result  = await self.sydney.ask(prompt, citations=False)
+        result = await self.sydney.ask(prompt, citations=False)
         # self.sydney.reset_conversation()
         return result
-    
+
     def complete(self, prompt: str, **kwargs) -> str:
+        import asyncio
         answer = asyncio.run(self._async_complete(prompt, **kwargs))
         return answer
 
+
 class PyLLMProvider(AIProvider):
 
-    def __init__(self, provider:str, model: str):
+    def __init__(self, provider: str, model: str):
+        import llms
         self.name = f"{provider}_{model}"
-        LOGGER.debug(f"Create PyLLMProvider with provider {provider} and model {model}")
+        LOGGER.debug(
+            f"Create PyLLMProvider with provider {provider} and model {model}")
         self.ai = llms.init(model)
 
     def complete(self, prompt: str, **kwargs) -> str:
@@ -140,9 +243,10 @@ class PyLLMProvider(AIProvider):
 
 
 class MultiProvider(AIProvider):
+
     def __init__(self, providers: List[str]):
         self.providers = [AIProvider._build_one(p) for p in providers]
-    
+
     def complete(self, prompt: str, **kwargs) -> str:
         results = []
         for provider in self.providers:
