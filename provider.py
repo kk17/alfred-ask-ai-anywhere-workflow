@@ -9,17 +9,18 @@ import openai
 
 LOGGER = logging.getLogger("ask_ai")
 
-PYLLM_PROVODERS = [
-    "openai",
-    "anthropic",
-    "ai21",
-    "cohere",
-    "alephalpha",
-    "huggingface_hub",
-    "google",
-]
-OTHER_PROVIDERS = ["notionai", "bingchat", "openai"]
-PROVODERS = PYLLM_PROVODERS + OTHER_PROVIDERS
+# PYLLM_PROVODERS = [
+#     "openai",
+#     "anthropic",
+#     "ai21",
+#     "cohere",
+#     "alephalpha",
+#     "huggingface_hub",
+#     "google",
+# ]
+# OTHER_PROVIDERS = ["notionai", "bingchat", "openai"]
+# PROVODERS = PYLLM_PROVODERS + OTHER_PROVIDERS
+HUGCHAT_LLMS = ['OpenAssistant/oasst-sft-6-llama-30b-xor', 'meta-llama/Llama-2-70b-chat-hf']
 
 
 class AIProvider(abc.ABC):
@@ -61,9 +62,12 @@ class AIProvider(abc.ABC):
         if provider == "openai":
             return OpenAIProvider(
                 parts[1]) if len(parts) == 2 else OpenAIProvider()
-        elif provider in PYLLM_PROVODERS:
-            model = parts[1]
-            return PyLLMProvider(provider, model)
+        # elif provider in PYLLM_PROVODERS:
+        #     model = parts[1]
+        #     return PyLLMProvider(provider, model)
+        elif provider == "hugchat":
+            model = model_provoder.split("_", 1)[1]
+            return HugChatProvider(model)
         elif provider == "notionai":
             return NotionAIProvider()
         elif provider == "bingchat":
@@ -79,6 +83,71 @@ class AIProvider(abc.ABC):
             return AIProvider._build_one(provoders[0])
         else:
             return MultiProvider(provoders)
+
+class HugChatProvider(AIProvider):
+    def __init__(self, model):
+        self.name = f"hugchat_{model}"
+        self.model = model
+        HUGCHAT_EMAIL = os.getenv("HUGCHAT_EMAIL")
+        HUGCHAT_PASSWORD = os.getenv("HUGCHAT_PASSWORD")
+        HUGCHAT_COOKIE_DIR = os.getenv("HUGCHAT_COOKIE_DIR", ".hugchat_cookies")
+        if not HUGCHAT_EMAIL:
+            LOGGER.error("HUGCHAT_EMAIL is not set")
+        if not HUGCHAT_PASSWORD:
+            LOGGER.error("HUGCHAT_PASSWORD is not set")
+        logging.debug(
+            f"Create HugChatProvider with email {HUGCHAT_EMAIL}"
+        )
+        from hugchat import hugchat
+        from hugchat.login import Login
+        # login
+        sign = Login(HUGCHAT_EMAIL, HUGCHAT_PASSWORD)
+        cookie_file_path = os.path.join(HUGCHAT_COOKIE_DIR, f"{HUGCHAT_EMAIL}.json")
+        if not os.path.exists(cookie_file_path):
+            cookies = sign.login()
+            sign.saveCookiesToDir(HUGCHAT_COOKIE_DIR)
+        else:
+            # load cookies from usercookies/<email>.json
+            sign = Login(HUGCHAT_EMAIL, None)
+            cookies = sign.loadCookiesFromDir(HUGCHAT_COOKIE_DIR) 
+
+        # Create a ChatBot
+        self.chatbot = hugchat.ChatBot(cookies=cookies.get_dict())
+        self.chatbot.active_model = model
+
+    def complete(self,
+                 prompt: str,
+                # web_search: bool=False,
+                temperature: float=0.9,
+                top_p: float=0.95,
+                repetition_penalty: float=1.2,
+                top_k: int=50,
+                truncate: int=1024,
+                watermark: bool=False,
+                max_new_tokens: int=1024,
+                stop: list=["</s>"],
+                return_full_text: bool=False,
+                stream: bool=True,
+                use_cache: bool=False,
+                is_retry: bool=False,
+                retry_count: int=5,
+                 **kwargs) -> str:
+        return self.chatbot.chat(
+            prompt,
+            temperature=temperature,
+            top_p=top_p,
+            repetition_penalty=repetition_penalty,
+            top_k=top_k,
+            truncate=truncate,
+            watermark=watermark,
+            max_new_tokens=max_new_tokens,
+            stop=stop,
+            return_full_text=return_full_text,
+            stream=stream,
+            use_cache=use_cache,
+            is_retry=is_retry,
+            retry_count=retry_count,
+        )
 
 
 class OpenAIProvider(AIProvider):
@@ -229,17 +298,17 @@ class BingChatProvider(AIProvider):
         return answer
 
 
-class PyLLMProvider(AIProvider):
+# class PyLLMProvider(AIProvider):
 
-    def __init__(self, provider: str, model: str):
-        import llms
-        self.name = f"{provider}_{model}"
-        LOGGER.debug(
-            f"Create PyLLMProvider with provider {provider} and model {model}")
-        self.ai = llms.init(model)
+#     def __init__(self, provider: str, model: str):
+#         import llms
+#         self.name = f"{provider}_{model}"
+#         LOGGER.debug(
+#             f"Create PyLLMProvider with provider {provider} and model {model}")
+#         self.ai = llms.init(model)
 
-    def complete(self, prompt: str, **kwargs) -> str:
-        return self.ai.complete(prompt, **kwargs).text
+#     def complete(self, prompt: str, **kwargs) -> str:
+#         return self.ai.complete(prompt, **kwargs).text
 
 
 class MultiProvider(AIProvider):
