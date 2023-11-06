@@ -479,26 +479,6 @@ eval $COMMAND
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argument</key>
-				<string></string>
-				<key>passthroughargument</key>
-				<false/>
-				<key>variables</key>
-				<dict>
-					<key>OPTIONS_STRING</key>
-					<string>--input-to-clipboard --combine-input-into-result --paste-result continue-writing</string>
-				</dict>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.argument</string>
-			<key>uid</key>
-			<string>7A3091AD-C2B1-4020-AA50-1D30FBC7FCD8</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>conditions</key>
 				<array>
 					<dict>
@@ -525,6 +505,26 @@ eval $COMMAND
 			<string>alfred.workflow.utility.conditional</string>
 			<key>uid</key>
 			<string>54A8DD41-3A7B-416B-8740-3C1B06257FE5</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict>
+					<key>OPTIONS_STRING</key>
+					<string>--input-to-clipboard --combine-input-into-result --paste-result continue-writing</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>7A3091AD-C2B1-4020-AA50-1D30FBC7FCD8</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -570,7 +570,7 @@ eval $COMMAND
 				<key>fixedorder</key>
 				<true/>
 				<key>items</key>
-				<string>[{"imagefile":"14280e9b147f3601051e26c30a0602c1ebf1d718.png","title":"Translate into Chinese [Display]","arg":"translate chinese","subtitle":"chinese"},{"imagefile":"8db34b189c69881d89e6cc6bb073b9e64a5fcc0e.png","title":"Translate into English [Display]","arg":"translate english","subtitle":"english"},{"imagefile":"5ce514e326c5af24d71346d0e338c290b28642df.png","title":"Improve writing","arg":"--input-to-clipboard --paste-result improve-writing","subtitle":"improve"},{"imagefile":"867ea50e76a057cc6485f7d4c2b014de5e6d0ddf.png","title":"Summarize","arg":"summarize","subtitle":"summarize"},{"imagefile":"f2c6260cf5e0a5b3b1b646326251cf3dc98e71e7.png","title":"Change to friendly tone","arg":"--input-to-clipboard --paste-result change-tone friendly","subtitle":"friendly"},{"imagefile":"a87a4dcf02d6acf50e9a1381f33d289fc02799e2.png","title":"Continue Writing","arg":"--input-to-clipboard --combine-input-into-result --paste-result continue-writing","subtitle":"continue"},{"imagefile":"acc64c5225d6605be65fda95bdea872fd6981ee2.png","title":"Translate into Singlish [Replace]","arg":"--input-to-clipboard --paste-result continue-writing #translate following content into Singlish:","subtitle":"singlish"},{"imagefile":"dc28bd92af576e1516e3015c9fc778ef21a9a166.png","title":"Transalte into Indonesian [Display]","arg":"translate indonesia","subtitle":"indonesian"},{"imagefile":"daa447a1d7a69ec6090c896440a58cbb74b49e6c.png","title":"Text to Speech: English","arg":"OTHER:say -v \"Ava (Premium)\"","subtitle":"tts english"},{"imagefile":"98a93283c6e3d552101670826378ebf46f1a90ea.png","title":"Text to Speech: Indian English","arg":"OTHER:say -v \"Isha (Premium)\"","subtitle":"tts indian"},{"imagefile":"dc28bd92af576e1516e3015c9fc778ef21a9a166.png","title":"Text to Speech: Indonesian","arg":"OTHER:say -v Damayanti","subtitle":"tts indonesian"},{"imagefile":"4e41ff2b31c51eed7876d8a59d09e72dd22190bd.png","title":"Text to Speech: Chinese","arg":"OTHER:say -v Tingting","subtitle":"tts chinese"},{"imagefile":"f49884dd48ede6f18c69d186929f7a7dabec4deb.png","title":"Text to Speech: Cantonese","arg":"OTHER:say -v Sinji","subtitle":"tts cantonese"},{"imagefile":"14280e9b147f3601051e26c30a0602c1ebf1d718.png","title":"Translate into Chinese [Replace]","arg":" --input-to-clipboard --paste-result translate chinese","subtitle":"chinese"},{"imagefile":"8db34b189c69881d89e6cc6bb073b9e64a5fcc0e.png","title":"Translate into English [Replace]","arg":" --input-to-clipboard --paste-result translate english","subtitle":"english"}]</string>
+				<string>[{"imagefile":"14280e9b147f3601051e26c30a0602c1ebf1d718.png","title":"Translate into Chinese [Display]","arg":"translate chinese","subtitle":"chinese"},{"imagefile":"8db34b189c69881d89e6cc6bb073b9e64a5fcc0e.png","title":"Translate into English [Display]","arg":"translate english","subtitle":"english"},{"imagefile":"5ce514e326c5af24d71346d0e338c290b28642df.png","title":"Improve writing","arg":"--input-to-clipboard --paste-result improve-writing","subtitle":"improve"},{"imagefile":"867ea50e76a057cc6485f7d4c2b014de5e6d0ddf.png","title":"Summarize","arg":"summarize","subtitle":"summarize"},{"imagefile":"f2c6260cf5e0a5b3b1b646326251cf3dc98e71e7.png","title":"Change to friendly tone","arg":"--input-to-clipboard --paste-result change-tone friendly","subtitle":"friendly"},{"imagefile":"a87a4dcf02d6acf50e9a1381f33d289fc02799e2.png","title":"Continue Writing","arg":"--input-to-clipboard --combine-input-into-result --paste-result continue-writing","subtitle":"continue"},{"imagefile":"acc64c5225d6605be65fda95bdea872fd6981ee2.png","title":"Translate into Singlish [Replace]","arg":"--input-to-clipboard --paste-result continue-writing #translate following content into Singlish:","subtitle":"singlish"},{"imagefile":"dc28bd92af576e1516e3015c9fc778ef21a9a166.png","title":"Transalte into Indonesian [Display]","arg":"translate indonesia","subtitle":"indonesian"},{"imagefile":"daa447a1d7a69ec6090c896440a58cbb74b49e6c.png","title":"Text to Speech: English","arg":"OTHER:say -v \"Ava (Premium)\"","subtitle":"tts english"},{"imagefile":"98a93283c6e3d552101670826378ebf46f1a90ea.png","title":"Text to Speech: Indian English","arg":"OTHER:say -v \"Isha (Premium)\"","subtitle":"tts indian"},{"imagefile":"dc28bd92af576e1516e3015c9fc778ef21a9a166.png","title":"Text to Speech: Indonesian","arg":"OTHER:say -v Damayanti","subtitle":"tts indonesian"},{"imagefile":"4e41ff2b31c51eed7876d8a59d09e72dd22190bd.png","title":"Text to Speech: Chinese","arg":"OTHER:say -v Tingting","subtitle":"tts chinese"},{"imagefile":"f49884dd48ede6f18c69d186929f7a7dabec4deb.png","title":"Text to Speech: Cantonese","arg":"OTHER:say -v Sinji","subtitle":"tts cantonese"},{"imagefile":"14280e9b147f3601051e26c30a0602c1ebf1d718.png","title":"Translate into Chinese [Replace]","arg":" --input-to-clipboard --paste-result translate chinese","subtitle":"chinese"},{"imagefile":"8db34b189c69881d89e6cc6bb073b9e64a5fcc0e.png","title":"Translate into English [Replace]","arg":" --input-to-clipboard --paste-result translate english","subtitle":"english"},{"title":"Generate email subject[Display]","arg":"--input-to-clipboard continue-writing #generate an email subject of the following content. Output only the email subject. Content:","subtitle":"email"}]</string>
 				<key>matchmode</key>
 				<integer>0</integer>
 				<key>runningsubtext</key>
@@ -1023,9 +1023,9 @@ You can also add more option in to the List Filter.</string>
 			<key>note</key>
 			<string>store option as variable</string>
 			<key>xpos</key>
-			<real>350</real>
+			<real>345</real>
 			<key>ypos</key>
-			<real>305</real>
+			<real>325</real>
 		</dict>
 		<key>7C66B181-145B-4E33-930C-647D89C75BD0</key>
 		<dict>
@@ -1295,12 +1295,10 @@ You can also add more option in to the List Filter.</string>
 	<key>variables</key>
 	<dict>
 		<key>GOLBAL_OPT_STR</key>
-		<string>--result-to-clipboard</string>
+		<string>-v --result-to-clipboard</string>
 		<key>PYTHONPATH</key>
 		<string>.:lib</string>
 	</dict>
-	<key>variablesdontexport</key>
-	<array/>
 	<key>version</key>
 	<string>0.4.0</string>
 	<key>webaddress</key>

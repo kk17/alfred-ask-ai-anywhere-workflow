@@ -172,7 +172,7 @@ class OpenAIProvider(AIProvider):
         history: Optional[List[dict]] = None,
         system_message: str = None,
         temperature: float = 0,
-        max_tokens: int = 300,
+        max_tokens: int = 30000,
         stream: bool = False,
         **kwargs,
     ) -> Dict:
