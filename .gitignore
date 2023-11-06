@@ -3,3 +3,4 @@ prefs.plist
 *.pyc
 lib
 .hugchat_cookies
+.test.sh
