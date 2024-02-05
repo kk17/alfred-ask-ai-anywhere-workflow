@@ -231,8 +231,6 @@ class OpenAIProvider(AIProvider):
             **kwargs,
         )
 
-        print("model_inputs:\n", model_inputs)
-
         response = self.client.create(model=self.model,
                                       **model_inputs,
                                       **kwargs)
