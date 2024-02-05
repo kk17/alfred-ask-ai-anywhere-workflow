@@ -172,7 +172,7 @@ class OpenAIProvider(AIProvider):
         history: Optional[List[dict]] = None,
         system_message: str = None,
         temperature: float = 0,
-        max_tokens: int = 30000,
+        max_tokens: int = 4000,
         stream: bool = False,
         **kwargs,
     ) -> Dict:
@@ -220,7 +220,7 @@ class OpenAIProvider(AIProvider):
                  history: Optional[List[dict]] = None,
                  system_message: Optional[List[dict]] = None,
                  temperature: float = 0,
-                 max_tokens: int = 300,
+                 max_tokens: int = 4000,
                  **kwargs) -> str:
         model_inputs = self._prepapre_model_inputs(
             prompt=prompt,
@@ -230,6 +230,8 @@ class OpenAIProvider(AIProvider):
             max_tokens=max_tokens,
             **kwargs,
         )
+
+        print("model_inputs:\n", model_inputs)
 
         response = self.client.create(model=self.model,
                                       **model_inputs,
