@@ -6,6 +6,7 @@
 ## install package
 ```
 /usr/bin/pip3 install --target=lib -r requirements.txt
+# /usr/bin/pip3 install --target=lib --upgrade notionai-py
 ```
 
 ## Installation
