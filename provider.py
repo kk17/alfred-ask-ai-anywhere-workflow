@@ -169,15 +169,16 @@ class OpenAIProvider(AIProvider):
     def _prepapre_model_inputs(
         self,
         prompt: str,
-        history: Optional[List[dict]] = None,
-        system_message: str = None,
-        temperature: float = 0,
-        max_tokens: int = 4000,
+        history: Optional[List[dict]],
+        temperature: float,
+        max_tokens: int,
+        system_message: str,
         stream: bool = False,
         **kwargs,
     ) -> Dict:
         if self.is_chat_model:
             messages = [{"role": "user", "content": prompt}]
+            max_tokens -= len(prompt)
 
             if history:
                 messages = [*history, *messages]
@@ -220,7 +221,7 @@ class OpenAIProvider(AIProvider):
                  history: Optional[List[dict]] = None,
                  system_message: Optional[List[dict]] = None,
                  temperature: float = 0,
-                 max_tokens: int = 4000,
+                 max_tokens: int = 4097,
                  **kwargs) -> str:
         model_inputs = self._prepapre_model_inputs(
             prompt=prompt,

@@ -940,7 +940,7 @@ eval $COMMAND
 				<key>variables</key>
 				<dict>
 					<key>OPTIONS_STRING</key>
-					<string>--input-to-clipboard --paste-result continue-writing #only correct words spelling of the follow text:</string>
+					<string>--input-to-clipboard --paste-result translate english</string>
 				</dict>
 			</dict>
 			<key>type</key>
