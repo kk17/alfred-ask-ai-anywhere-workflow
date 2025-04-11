@@ -1164,8 +1164,7 @@ You can also add more option in to the List Filter.</string>
 			<key>config</key>
 			<dict>
 				<key>default</key>
-				<string>hugchat_meta-llama/Llama-2-70b-chat-hf
-# hugchat_OpenAssistant/oasst-sft-6-llama-30b-xor
+				<string>openrouter/google/gemini-2.0-flash-lite-preview-02-05:free# hugchat_OpenAssistant/oasst-sft-6-llama-30b-xor
 # notionai
 # openai_text-davinci-003
 # openai_gpt-3.5-turbo
@@ -1178,127 +1177,28 @@ You can also add more option in to the List Filter.</string>
 				<integer>6</integer>
 			</dict>
 			<key>description</key>
-			<string>comment out to use the provider. can enable multiple providers</string>
+			<string>check https://docs.litellm.ai/docs/providers</string>
 			<key>label</key>
-			<string>model providers</string>
+			<string>litellm model</string>
 			<key>type</key>
 			<string>textarea</string>
 			<key>variable</key>
-			<string>MODEL_PROVIDERS</string>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>default</key>
-				<string></string>
-				<key>placeholder</key>
-				<string></string>
-				<key>required</key>
-				<false/>
-				<key>trim</key>
-				<true/>
-			</dict>
-			<key>description</key>
-			<string>https://huggingface.co</string>
-			<key>label</key>
-			<string>hugchat login email</string>
-			<key>type</key>
-			<string>textfield</string>
-			<key>variable</key>
-			<string>HUGCHAT_EMAIL</string>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>default</key>
-				<string></string>
-				<key>placeholder</key>
-				<string></string>
-				<key>required</key>
-				<false/>
-				<key>trim</key>
-				<true/>
-			</dict>
-			<key>description</key>
-			<string>https://huggingface.co</string>
-			<key>label</key>
-			<string>hugchat login password</string>
-			<key>type</key>
-			<string>textfield</string>
-			<key>variable</key>
-			<string>HUGCHAT_PASSWORD</string>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>default</key>
-				<string></string>
-				<key>placeholder</key>
-				<string></string>
-				<key>required</key>
-				<false/>
-				<key>trim</key>
-				<true/>
-			</dict>
-			<key>description</key>
-			<string>Get it from https://platform.openai.com/account/api-keys</string>
-			<key>label</key>
-			<string>Open AI API Key</string>
-			<key>type</key>
-			<string>textfield</string>
-			<key>variable</key>
-			<string>OPENAI_API_KEY</string>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>default</key>
-				<string></string>
-				<key>placeholder</key>
-				<string></string>
-				<key>required</key>
-				<false/>
-				<key>trim</key>
-				<true/>
-			</dict>
-			<key>description</key>
-			<string>Your notion workspace id. You can get it following this guide: https://github.com/Vaayne/notionai-py#get-notion-token-and-workspace-id</string>
-			<key>label</key>
-			<string>notion workspace id</string>
-			<key>type</key>
-			<string>textfield</string>
-			<key>variable</key>
-			<string>NOTION_SPACE_ID</string>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>default</key>
-				<string></string>
-				<key>placeholder</key>
-				<string></string>
-				<key>required</key>
-				<false/>
-				<key>trim</key>
-				<true/>
-			</dict>
-			<key>description</key>
-			<string>Your notion token. You can get it following this guide: https://github.com/Vaayne/notionai-py#get-notion-token-and-workspace-id</string>
-			<key>label</key>
-			<string>notion token</string>
-			<key>type</key>
-			<string>textfield</string>
-			<key>variable</key>
-			<string>NOTION_TOKEN</string>
+			<string>AAA_LM_MODEL</string>
 		</dict>
 	</array>
 	<key>variables</key>
 	<dict>
 		<key>GOLBAL_OPT_STR</key>
 		<string>-v --result-to-clipboard</string>
+		<key>OPENROUTER_API_KEY</key>
+		<string>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</string>
 		<key>PYTHONPATH</key>
 		<string>.:lib</string>
 	</dict>
+	<key>variablesdontexport</key>
+	<array>
+		<string>OPENROUTER_API_KEY</string>
+	</array>
 	<key>version</key>
 	<string>0.4.0</string>
 	<key>webaddress</key>

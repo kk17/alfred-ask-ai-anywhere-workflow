@@ -16,7 +16,7 @@ Note that the [Alfred 5 Powerpack](https://www.alfredapp.com/powerpack/) is requ
 
 - Huggingface Chat (Free): Register your account [here](https://huggingface.co/chat/).
 - OpenAI: Get your API key from [here](https://platform.openai.com/account/api-keys).
-- NotionAI: Follow [this guide](https://github.com/Vaayne/notionai-py#get-notion-token-and-workspace-id) to get your Notion token and workspace ID from your browser.
+- OpenRouter: https://openrouter.ai
 
 After configure the LLM provider, you need to configure hotkeys for the workflow.
 ![configure hotkeys](./docs/config-hotkeys.png)
@@ -34,8 +34,7 @@ Usage: ask_ai.py [OPTIONS] COMMAND [ARGS]...
   Command line interface for LLM API.
 
 Options:
-  --model-provider [notionai|openai_gpt-3.5-turbo|openai_gpt-4|openai_text-davinci-003]
-                                  LLM provider, support notionai, openai
+  --model TEXT                    LLM model
   --input-to-clipboard            Copy input content to clipboard.
   --combine-input-into-result     Combine input content into result.
   --result-to-keyboard            Output result to keyboard instead of stdout.

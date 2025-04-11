@@ -4,3 +4,8 @@ prefs.plist
 lib
 .hugchat_cookies
 .test.sh
+build
+dist
+*.spec
+build_executable.sh
+__pycache__

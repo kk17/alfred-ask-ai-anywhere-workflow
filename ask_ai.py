@@ -4,57 +4,24 @@ import pyperclip
 import logging
 import platform
 from pynput.keyboard import Key, Controller
-from provider import AIProvider
+from lm_service import LMService
 
-logging.basicConfig(format='%(message)s', level=logging.INFO)
+logging.basicConfig(format='%(message)s', level=logging.WARN)
 LOGGER = logging.getLogger("ask_ai")
 
 keyboard = Controller()
 
-MODEL_CHOICES = [
-    "hugchat_OpenAssistant/oasst-sft-6-llama-30b-xor",
-    "hugchat_meta-llama/Llama-2-70b-chat-hf",
-    "notionai",
-    "openai_gpt-3.5-turbo",
-    "openai_gpt-4",
-    "openai_text-davinci-003",
-    # "bingchat_creative",
-    # "bingchat_precise",
-    # "bingchat_balanced",
-    # "ai21_j2-grande-instruct",
-    # "ai21_j2-jumbo-instruct",
-    # "alephalpha_luminous-base",
-    # "alephalpha_luminous-extended",
-    # "alephalpha_luminous-supreme",
-    # "alephalpha_luminous-supreme-control",
-    # "anthropic_claude-2",
-    # "anthropic_claude-instant-1",
-    # "anthropic_claude-instant-v1",
-    # "anthropic_claude-instant-v1.1",
-    # "anthropic_claude-v1",
-    # "anthropic_claude-v1-100k",
-    # "cohere_command",
-    # "cohere_command-nightly",
-    # "google_chat-bison",
-    # "google_text-bison",
-    # "huggingfacehub_hf_dolly",
-    # "huggingfacehub_hf_falcon40b",
-    # "huggingfacehub_hf_falcon7b",
-    # "huggingfacehub_hf_llava",
-    # "huggingfacehub_hf_mptchat",
-    # "huggingfacehub_hf_mptinstruct",
-    # "huggingfacehub_hf_pythia",
-    # "huggingfacehub_hf_vicuna",
-]
+DEFAULT_MODEL = os.getenv(
+    'AAA_LM_MODEL',
+    'openrouter/google/gemma-3-4b-it:free')
 
 
 @click.group()
-@click.option('--model-provider',
+@click.option('--model',
               is_flag=False,
-              help='LLM provider, support notionai, openai',
-              type=click.Choice(MODEL_CHOICES),
-              multiple=True,
-              default=['hugchat_meta-llama/Llama-2-70b-chat-hf'])
+              help='LLM model',
+              default=DEFAULT_MODEL
+              )
 @click.option('--input-to-clipboard',
               is_flag=True,
               help='Copy input content to clipboard.')
@@ -71,11 +38,11 @@ MODEL_CHOICES = [
               is_flag=True,
               help='Paste result from clipboard.')
 @click.option('--verbose', '-v', is_flag=True, help='Enable verbose output.')
-def cli(model_provider, input_to_clipboard, combine_input_into_result,
+def cli(model, input_to_clipboard, combine_input_into_result,
         result_to_keyboard, result_to_clipboard, paste_result, verbose):
     """Command line interface for LLM API."""
     global AI, INPUT_TO_CLIPBOARD, COMBINE_INPUT_INTO_RESULT, RESULT_TO_KEYBOARD, RESULT_TO_CLIPBOARD, PASTE_RESULT
-    AI = AIProvider.build(model_provider)
+    AI = LMService(model)
     INPUT_TO_CLIPBOARD = input_to_clipboard
     COMBINE_INPUT_INTO_RESULT = combine_input_into_result
     RESULT_TO_KEYBOARD = result_to_keyboard
@@ -155,12 +122,20 @@ def summarize(context):
     resp = AI.summarize(context)
     output(context, resp)
 
+@click.command()
+@click.argument('context')
+def chat(context):
+    LOGGER.debug(f"chat input: {context}")
+    resp = AI.chat(context)
+    output(context, resp)
+
 
 cli.add_command(change_tone)
 cli.add_command(improve_writing)
 cli.add_command(continue_writing)
 cli.add_command(translate)
 cli.add_command(summarize)
+cli.add_command(chat)
 
 if __name__ == '__main__':
     cli()

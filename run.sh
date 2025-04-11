@@ -10,10 +10,10 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 cd "$DIR"
 
-PYTHON_ENV=${PYTHON_ENV:-"/usr/bin/python3"}
+PYTHON_ENV=${PYTHON_ENV:-"python3"}
 SCRIPT_PATH=${SCRIPT_PATH:-"ask_ai.py"}
 OPTIONS_STRING=${OPTIONS_STRING:-"continue-writing#translate chinese"}
-MODEL_PROVIDERS=${MODEL_PROVIDERS:-"openai_text-davinci-003"}
+AAA_LM_MODEL=${AAA_LM_MODEL:-"openrouter/google/gemini-2.0-flash-lite-preview-02-05:free"}
 GOLBAL_OPT_STR=${GOLBAL_OPT_STR:-"--result-to-clipboard"}
 
 IFS=' ' read -r -a GOLBAL_OPTS <<< "${GOLBAL_OPT_STR}"
@@ -29,11 +29,8 @@ else
 fi
 
 MODEL_PROVIDER_OPTIONS=()
-while read LINE; do
-    if [[ -n "$LINE" ]]; then
-        MODEL_PROVIDER_OPTIONS+=("--model-provider")
-        MODEL_PROVIDER_OPTIONS+=("$LINE")
-    fi
-done < <(echo -e "${MODEL_PROVIDERS}" | grep "^[^#]")
+MODEL_PROVIDER_OPTIONS+=("--model")
+MODEL_PROVIDER_OPTIONS+=("$AAA_LM_MODEL")
+
 
 $PYTHON_ENV $SCRIPT_PATH ${MODEL_PROVIDER_OPTIONS[@]}  ${GOLBAL_OPTS[@]} ${OPTS[@]} "${FINAL_CONTENT}"
